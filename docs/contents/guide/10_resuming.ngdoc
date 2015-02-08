@@ -1,0 +1,65 @@
+@ngdoc overview
+@name Resuming Nagivation
+@description
+
+# Resuming the cancelled navigation
+
+The interceptors can also register a `handleFn` function to to act upon a cancelled navigation.
+
+```javascript
+var removeInterceptor = clPreventNavigation.addInterceptor(checkFn, handleFn, message);
+```
+
+The optional `handleFn` **must** be a function, and if provided it **must** return a promise.
+
+You can use this function to perform asynchronous operations and then decide if it's ok to resume the cancelled
+navigation (by resolving the promise) or if it should be discared completely (by rejecting it).
+
+You don't have to worry about which `path` was cancelled in the first place, if all registered interceptors resolve
+their promises, navigation to that `path` will be resumed by the service.
+
+**Example:** Typically, an app will show a dialog to the user prompting to confirm the navigation and warning of the
+consequences of such. Let's assume you are using something like [angular-dialog-service](https://github.com/m-e-conroy/angular-dialog-service)
+which returns a promise resolved when the user confirms the dialog and rejected if he cancels.
+
+```javascript
+module.controller('someCtrl', [
+    '$scope',
+    'clPreventNavigation',
+    'dialogs',
+    function ($scope, clPreventNavigation, dialogs) {
+        var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+            return $scope.form.$pristine;
+        }, function () {
+            return dialogs.confirm('Do you want to navigate? All your changes will be lost!');
+        });
+    }
+]);
+```
+
+If multiple components of your application register interceptors with a `handleFn`, these functions will be called in the
+same order they were registered, waiting for each one to resolve their promise before invoking the next one. If at least
+one of these rejects their promise, navigation will be cancelled altogether.
+
+You can use this mechanism to prompt the user about one or more consequences of discarding the current application state.
+
+You can also use it do any other type of asynchronous operation, such as posting data to your backend.
+
+```
+navigate > prompt "changes to this form wil be lost" > prompt "the uploaded file will be discarded" > save draft > resume
+```
+
+## Important Notes:
+
+**Registering more interceptors while navigation is already suspended:**
+
+Any intercerptors registered while the current suspended navigation is waiting for the series of `handleFn`
+functions to resolve/reject will not be invoked for the current navigation. They will still be registered and invoked
+the next time a navigation event is cancelled.
+
+**Trying to navigate again while navigation is already suspended:**
+
+Any other `$locationChangeStart` events triggered while currently waiting for the series to resolve/reject are
+always prevented. If the current series resolves (typically if the user confirms that it is ok to navigate) the
+`$location.path` will be updated to the originally prevented path.
+

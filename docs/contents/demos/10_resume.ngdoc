@@ -1,0 +1,126 @@
+@ngdoc overview
+@name Resuming Navitagion
+@description
+
+## Resuming Navitagion
+
+In this example we will add a couple of interceptors with `handleFn` to act when navigation is prevented.
+
+for the sake of the simplicity we will use an extremely simple dialog overlay.
+
+As you can see, when both the interceptors are active (tick the "" and go to `/bar` and change the value of the input field)
+the user is prompted twice via the dialog service.
+
+<doc:example module="exampleApp" height="350">
+    <doc:source>
+        <script>
+            angular.module('exampleApp', ['ngRoute', 'ng.cl.preventNavigation'])
+            .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
+                //$locationProvider.html5Mode(false);
+                $routeProvider.when('/foo', {
+                    controller: 'fooCtrl',
+                    template: '<h3>Foo</h3>'
+                });
+                $routeProvider.when('/bar', {
+                    controller: 'barCtrl',
+                    template: '<h3>Bar</h3><form class="form-group" name="form"><input type="text" class="form-control" ng-model="name"><button class="btn btn-default" ng-click="save()">save</button></form>'
+                });
+            }])
+            .service('confirmDlg', ['$rootScope', '$compile', '$window', '$q', function ($rootScope, $compile, $window, $q) {
+                var template = '<div class="overlay"><div class="dialog"><h3>{{title}}</h3><p>{{msg}}</p><button class="btn btn-default" ng-click="ok()">ok</button><button class="btn btn-default" ng-click="cancel()">cancel</button></div></div>';
+                return function (title, msg) {
+                    var defer = $q.defer();
+                    var $scope = $rootScope.$new();
+                    $scope.title = title;
+                    $scope.msg = msg;
+                    var $el = $compile(template)($scope);
+                    var el = $window.document.body.appendChild($el[0]);
+                    $scope.ok = function () {
+                        $scope.$destroy();
+                        defer.resolve();
+                    }
+                    $scope.cancel = function () {
+                        $scope.$destroy();
+                        defer.reject();
+                    }
+                    $scope.$on('$destroy', function () {
+                        el.remove();
+                    })
+                    console.log(title, msg);
+                    return defer.promise;
+                }
+            }])
+            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNavigation', 'confirmDlg', function ($scope, $location, clPreventNavigation, confirmDlg) {
+                $scope.nav = clPreventNavigation;
+                $scope.disable = false;
+                var msg = 'Some other thing will happen.';
+                $scope.goFoo = function () {
+                    $location.path('/foo');
+                }
+                $scope.goBar = function () {
+                    $location.path('/bar', {id: $scope.id});
+                }
+                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                    return !$scope.disable;
+                }, function () {
+                    return confirmDlg('Sure?', msg);
+                }, msg);
+                $scope.$on('$destroy', removeInterceptor);
+            }])
+            .controller('fooCtrl', ['$scope', 'clPreventNavigation', function ($scope, clPreventNavigation) {
+                // ... controller code
+            }])
+            .controller('barCtrl', ['$scope', 'clPreventNavigation', 'confirmDlg', function ($scope, clPreventNavigation, confirmDlg) {
+                var msg = 'Changes to your form will be lost.';
+                $scope.name = 'modify me';
+                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                    return $scope.form.$pristine;
+                }, function () {
+                    return confirmDlg('Really?', msg);
+                }, msg);
+                $scope.save = function () {
+                    $scope.form.$setPristine();
+                    $scope.name = 'modify me again ;-)';
+                }
+                $scope.$on('$destroy', removeInterceptor);
+            }]);
+        </script>
+        <style>
+            .container {
+                padding: 10px;
+            }
+            h3 {
+                margin-top: 0;
+            }
+            input[type="text"] {
+                float :left; width: 80%;
+            }
+            .overlay {
+                position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+                padding: 40px;
+            }
+            .overlay {
+                padding: 40px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border: 1px solid #ccc;
+            }
+            .dialog {
+                width: 300px; margin: 0 auto; padding: 20px;
+                background-color: white;
+                text-align: center;
+            }
+            .dialog .btn {
+                margin: 10px;
+            }
+        </style>
+        <div data-ng-controller="exampleCtrl" class="container form-group">
+            <p class="form-group">
+                Go to route <button class="btn btn-default" ng-click="goFoo()">/foo</button>
+                Go to route <button class="btn btn-default" ng-click="goBar()">/bar</button>
+            </p>
+            <p class="checkbox"><label><input type="checkbox" ng-model="disable">Disable navigation</label></p>
+            <div ng-view class="well"></div>
+            <p class="well">Navigation is currently: {{nav.navigationEnabled ? 'enabled' : 'disabled'}}</p>
+        </div>
+    </doc:source>
+</doc:example>

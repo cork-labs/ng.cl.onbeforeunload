@@ -1,0 +1,42 @@
+@ngdoc overview
+@name Configuration
+@description
+
+# Configuration
+
+The service is configurable via the [clPreventNavigationProvider](#/api/ng.cl.preventNavigation.clPreventNavigationProvider).
+
+It allows you to set the dialog message header and default warnings:
+
+```javascript
+module.config([
+    'clPreventNavigation',
+    function (clPreventNavigationProvider) {
+        clPreventNavigationProvider.configure({
+            dlgHeader: 'Are you really leaving?',
+            msgPrefix: ' * ',
+            defaultMsg: 'There`s some unfinished business.'
+        });
+    }
+]);
+```
+
+
+## Configuration settings:
+
+
+### dlgHeader `<STRING>` default: "Warning:"
+
+The header of the `window.onbeforeunload` dialog.
+
+Leave blank to omit the header.
+
+
+### msgPrefix `<STRING>` default: " - "
+
+Prefixed to every message
+
+
+### defaultMsg `<STRING>` default: "All changes not yet saved will be lost."
+
+Displayed when navigation is disabled but no interceptors have provided a message.

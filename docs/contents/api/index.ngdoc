@@ -1,0 +1,14 @@
+@ngdoc overview
+@name API Reference
+@description
+
+# ng.cl.preventNavigation API Reference
+
+> Welcome to the **ng.cl.preventNavigation** API reference.
+
+If you want to know how **ng.cl.preventNavigation** works, checkout the {@link guide/ guide} and the {@link demos/ demos}.
+
+
+## Modules
+
+- **[ng.cl.preventNavigation](#/api/ng.cl.preventNavigation)** - Provides a configurable service that divides numbers by X, as well as a directive and a filter.

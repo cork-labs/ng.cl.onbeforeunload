@@ -1,0 +1,73 @@
+@ngdoc overview
+@name onbeforeunload
+@description
+
+# Handling forced navigation (window close, history, etc...)
+
+Whenever at least one of the checks is returning `false` the service binds the browser's
+`onbeforeunload` event too.
+
+This gives the user the chance to cancel accidental navigation (ex: when refreshing the page, using the back button or
+modifying the URL directly in the browser address bar).
+
+**Example:** The following code sets  a **permanent** restriction. Just try to refresh this page to see it.
+
+```javascript
+module.controller('someCtrl', [
+    '$scope',
+    'clPreventNavigation',
+    function ($scope, clPreventNavigation) {
+        var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+            return false;
+        }, null, 'You will loose all your changes!');
+    }
+]);
+
+```
+
+The dialog, with the default [configuration settings](#/guide/30_configuration), will look somewhat like this:
+
+```
+Warning:
+
+ - You will loose all your changes!
+
+Are yo sure you want to leave this page?
+
+(Leave this page) (Stay on this page)
+```
+
+## Important Notes:
+
+**Dialog format and message:**
+
+The actual lookg and feel and full message of this dialog depends on the user's browser and locale.
+
+**Default message:**
+
+If you don't provide a message in any of the interceptors currently return `false`, the `onbeforeunload` event
+will still be bound, but a default message will be sent to the user.
+
+**Limitations:**
+
+This mechanism is known to not work under some circumstances:
+- in most browsers, if the code is running inside an IFrame, it will be triggered by a page refresh, address bar changes
+and navigation to other websites on the parent frame, but it **not be triggered** by a "soft" navigation in SPA running
+in the parent frame, even if the frame is effectively destroyed.
+- in Firefox, the user can disable it all together via settings, and the browser always behaves as if user confirms the navigation.
+
+<doc:example module="exampleApp" height="200">
+    <doc:source>
+        <script>
+            angular.module('exampleApp', ['ng.cl.preventNavigation'])
+            .controller('exampleCtrl', ['clPreventNavigation', function (clPreventNavigation) {
+                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                    return false;
+                }, null, 'Nothing will actually be lost this time ;-)');
+            }]);
+        </script>
+        <div data-ng-controller="exampleCtrl" class="container">
+            <p>Refresh the page!</p>
+        </div>
+    </doc:source>
+</doc:example>

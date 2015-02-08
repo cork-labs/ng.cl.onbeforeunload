@@ -1,0 +1,49 @@
+@ngdoc overview
+@name Preventing Nagivation
+@description
+
+# Preventing Navigation
+
+The `ng.cl.preventNavigation` module provides a method to register check functions to enable/disable navigation.
+
+```javascript
+var removeInterceptor = clPreventNavigation.addInterceptor(checkFn, handleFn, message);
+```
+
+The `checkFn` argument must a function that returns `false` if navigation should be suspended and `true` otherwise.
+
+You can register multiple interceptors. This allows decoupled components to delegate this responsibility to this service
+without having to coordinate them.
+
+When at least one of this checks is returning `false`, navigation is suspended, i.e., all
+[$locationChangeStart](https://docs.angularjs.org/api/ng/service/$location#$locationChangeStart) events will immediately
+be cancelled.
+
+**Example:** Assuming your scope contains a form named `form`, here's how to prevent navigation whenever the form is
+dirty.
+
+```javascript
+module.controller('someCtrl', [
+    '$scope',
+    'clPreventNavigation',
+    function ($scope, clPreventNavigation) {
+        var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+            return $scope.form.$pristine;
+        })
+    }
+]);
+
+```
+
+**Note:** these checks are evaluated on every digest cycle. You should keep to simple and quick evaluations.
+
+You should remove the interceptor by calling the returned deregistration function whenever it is not needed anymore.
+
+You **must** remove the interceptor when destroying the scope, in order to avoid further invocation of the `checkFn`.
+
+
+```javascript
+$scope.$on('$destroy', function () {
+    removeInterceptor();
+})
+```
