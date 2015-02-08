@@ -6,10 +6,15 @@
 
 In this example we will add a couple of interceptors with `handleFn` to act when navigation is prevented.
 
-for the sake of the simplicity we will use an extremely simple dialog overlay.
+We will use an extremely simple dialog overlay to let the user decide if he wants to resume the prevented navigation.
 
-As you can see, when both the interceptors are active (tick the "" and go to `/bar` and change the value of the input field)
-the user is prompted twice via the dialog service.
+Note this happens asynchronously. Each instance of the dialog service returns a promise back to the `clPreventNav`
+service and then resolves/rejects it according to the user response.
+
+As you can see, when both the interceptors are active the user is prompted twice via the dialog service.
+
+**Tip:** To activate both interceptors, tick the `Disable navigation` checkbox and change the value of the input field
+in the `/bar` route to set the form `$dirty`.
 
 <doc:example module="exampleApp" height="350">
     <doc:source>

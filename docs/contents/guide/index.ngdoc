@@ -34,7 +34,7 @@ Include the following JS files in your build:
 
 ### Preventing navigation
 
-The `ng.cl.throttling` module provides a method to register check functions to enable/disable navigation, allowing
+The `ng.cl.prevent-nav` module provides a method to register check functions to enable/disable navigation, allowing
 decoupled components to delegate this responsibility to this service.
 
 When at least one of this checks is returning `false`, navigation is suspended, i.e., all
