@@ -2,22 +2,22 @@
 @name Guide
 @description
 
-# ng.cl.preventNavigation
+# ng.cl.prevent-nav
 
-[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cl.preventNavigation/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cl.preventNavigation)
-[![Bower version](http://img.shields.io/bower/v/ng.cl.preventNavigation.svg?style=flat-square)](https://github.com/cork-labs/ng.cl.preventNavigation)
+[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cl.prevent-nav/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cl.prevent-nav)
+[![Bower version](http://img.shields.io/bower/v/ng.cl.prevent-nav.svg?style=flat-square)](https://github.com/cork-labs/ng.cl.prevent-nav)
 
 > Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.
 
 
 ## Getting Started
 
-Add **ng.cl.preventNavigation** to you project.
+Add **ng.cl.prevent-nav** to you project.
 
 Via bower:
 
 ```
-$ bower install --save ng.cl.preventNavigation
+$ bower install --save ng.cl.prevent-nav
 ```
 
 Via npm:
@@ -27,7 +27,7 @@ $ npm install --save ng.cl.router
 ```
 
 Include the following JS files in your build:
-- `dist/ng.cl.preventNavigation.js` OR `dist/ng.cl.preventNavigation.min.js`
+- `dist/ng.cl.prevent-nav.js` OR `dist/ng.cl.prevent-nav.min.js`
 
 
 ## Quick Guide
@@ -42,7 +42,7 @@ When at least one of this checks is returning `false`, navigation is suspended, 
 be cancelled.
 
 ```
-clPreventNavigation.addInterceptor(function () {
+clPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 });
 ```
@@ -57,7 +57,7 @@ The interceptors can also register a `handleFn` function to to act upon a cancel
 show a dialog to the user prompting to confirm the navigation and warning of the consequences of such.
 
 ```
-var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+var removeInterceptor = clPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 }, function () {
     // assuming dialog.show() returns a promise resolved when the user confirms the dialog, rejected if he cancels
@@ -76,7 +76,7 @@ This gives the user the chance to cancel accidental navigation (ex: when refresh
 modifying the URL directly in the browser address bar).
 
 ```
-clPreventNavigation.addInterceptor(function () {
+clPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 }, angular.noop, 'All the changes will be lost!');
 ```
@@ -86,12 +86,12 @@ Read more about [onbeforeunload](#/guide/20_onbeforeunload).
 
 ### Configuring the service.
 
-The service is configurable via the [clPreventNavigationProvider](#/api/ng.cl.preventNavigation.clPreventNavigationProvider).
+The service is configurable via the [clPreventNavProvider](#/api/ng.cl.prevent-nav.clPreventNavProvider).
 
 It allows you to set the dialog message header and default warnings:
 
 ```
-clPreventNavigationProvider.configure({
+clPreventNavProvider.configure({
     msgPrefix: ' * '
 });
 ```
@@ -103,7 +103,7 @@ Make sure you check all the [configuration settings](#/guide/30_configuration).
 
 We'd love for you to contribute to our source code and to make it even better than it is today!
 
-Make sure you read the [Contributing Guide](https://github.com/cork-labs/ng.cl.preventNavigation/blob/master/CONTRIBUTING.md) first.
+Make sure you read the [Contributing Guide](https://github.com/cork-labs/ng.cl.prevent-nav/blob/master/CONTRIBUTING.md) first.
 
 
 ## Developing

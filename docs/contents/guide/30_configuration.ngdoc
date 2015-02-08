@@ -4,15 +4,15 @@
 
 # Configuration
 
-The service is configurable via the [clPreventNavigationProvider](#/api/ng.cl.preventNavigation.clPreventNavigationProvider).
+The service is configurable via the [clPreventNavProvider](#/api/ng.cl.prevent-nav.clPreventNavProvider).
 
 It allows you to set the dialog message header and default warnings:
 
 ```javascript
 module.config([
-    'clPreventNavigation',
-    function (clPreventNavigationProvider) {
-        clPreventNavigationProvider.configure({
+    'clPreventNav',
+    function (clPreventNavProvider) {
+        clPreventNavProvider.configure({
             dlgHeader: 'Are you really leaving?',
             msgPrefix: ' * ',
             defaultMsg: 'There`s some unfinished business.'

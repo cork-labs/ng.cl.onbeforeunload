@@ -14,7 +14,7 @@ the user is prompted twice via the dialog service.
 <doc:example module="exampleApp" height="350">
     <doc:source>
         <script>
-            angular.module('exampleApp', ['ngRoute', 'ng.cl.preventNavigation'])
+            angular.module('exampleApp', ['ngRoute', 'ng.cl.prevent-nav'])
             .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
                 //$locationProvider.html5Mode(false);
                 $routeProvider.when('/foo', {
@@ -50,8 +50,8 @@ the user is prompted twice via the dialog service.
                     return defer.promise;
                 }
             }])
-            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNavigation', 'confirmDlg', function ($scope, $location, clPreventNavigation, confirmDlg) {
-                $scope.nav = clPreventNavigation;
+            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNav', 'confirmDlg', function ($scope, $location, clPreventNav, confirmDlg) {
+                $scope.nav = clPreventNav;
                 $scope.disable = false;
                 var msg = 'Some other thing will happen.';
                 $scope.goFoo = function () {
@@ -60,20 +60,20 @@ the user is prompted twice via the dialog service.
                 $scope.goBar = function () {
                     $location.path('/bar', {id: $scope.id});
                 }
-                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                var removeInterceptor = clPreventNav.addInterceptor(function () {
                     return !$scope.disable;
                 }, function () {
                     return confirmDlg('Sure?', msg);
                 }, msg);
                 $scope.$on('$destroy', removeInterceptor);
             }])
-            .controller('fooCtrl', ['$scope', 'clPreventNavigation', function ($scope, clPreventNavigation) {
+            .controller('fooCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
                 // ... controller code
             }])
-            .controller('barCtrl', ['$scope', 'clPreventNavigation', 'confirmDlg', function ($scope, clPreventNavigation, confirmDlg) {
+            .controller('barCtrl', ['$scope', 'clPreventNav', 'confirmDlg', function ($scope, clPreventNav, confirmDlg) {
                 var msg = 'Changes to your form will be lost.';
                 $scope.name = 'modify me';
-                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                var removeInterceptor = clPreventNav.addInterceptor(function () {
                     return $scope.form.$pristine;
                 }, function () {
                     return confirmDlg('Really?', msg);
@@ -120,7 +120,7 @@ the user is prompted twice via the dialog service.
             </p>
             <p class="checkbox"><label><input type="checkbox" ng-model="disable">Disable navigation</label></p>
             <div ng-view class="well"></div>
-            <p class="well">Navigation is currently: {{nav.navigationEnabled ? 'enabled' : 'disabled'}}</p>
+            <p class="well">Navigation is currently: {{nav.prevented ? 'prevented' : 'not prevented'}}</p>
         </div>
     </doc:source>
 </doc:example>

@@ -4,10 +4,10 @@
 
 # Preventing Navigation
 
-The `ng.cl.preventNavigation` module provides a method to register check functions to enable/disable navigation.
+The `ng.cl.prevent-nav` module provides a method to register check functions to enable/disable navigation.
 
 ```javascript
-var removeInterceptor = clPreventNavigation.addInterceptor(checkFn, handleFn, message);
+var removeInterceptor = clPreventNav.addInterceptor(checkFn, handleFn, message);
 ```
 
 The `checkFn` argument must a function that returns `false` if navigation should be suspended and `true` otherwise.
@@ -25,9 +25,9 @@ dirty.
 ```javascript
 module.controller('someCtrl', [
     '$scope',
-    'clPreventNavigation',
-    function ($scope, clPreventNavigation) {
-        var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+    'clPreventNav',
+    function ($scope, clPreventNav) {
+        var removeInterceptor = clPreventNav.addInterceptor(function () {
             return $scope.form.$pristine;
         })
     }

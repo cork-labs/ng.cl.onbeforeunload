@@ -11,13 +11,13 @@ As you can see, whenever at least of these interceptors is returning `false` nav
 Also, try refreshing the page when navigation is disabled. You'll get a [`window.onbeforeunload`](#/guide/onbeforeunload)
 browser confirmation.
 
-You can also query for the `navigationEnabled` state to act accordingly in your views, like disabling some navigation
+You can also query for the `prevented` state to act accordingly in your views, like disabling some navigation
 elements.
 
 <doc:example module="exampleApp" height="350">
     <doc:source>
         <script>
-            angular.module('exampleApp', ['ngRoute', 'ng.cl.preventNavigation'])
+            angular.module('exampleApp', ['ngRoute', 'ng.cl.prevent-nav'])
             .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
                 //$locationProvider.html5Mode(false);
                 $routeProvider.when('/foo', {
@@ -29,8 +29,8 @@ elements.
                     template: '<h3>Bar</h3><form class="form-group" name="form"><input type="text" class="form-control" ng-model="name"><button class="btn btn-default" ng-click="save()">save</button></form>'
                 });
             }])
-            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNavigation', function ($scope, $location, clPreventNavigation) {
-                $scope.nav = clPreventNavigation;
+            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNav', function ($scope, $location, clPreventNav) {
+                $scope.nav = clPreventNav;
                 $scope.disable = false;
                 $scope.goFoo = function () {
                     $location.path('/foo');
@@ -38,17 +38,17 @@ elements.
                 $scope.goBar = function () {
                     $location.path('/bar', {id: $scope.id});
                 }
-                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                var removeInterceptor = clPreventNav.addInterceptor(function () {
                     return !$scope.disable;
                 }, null, 'Some other thing will happen.');
                 $scope.$on('$destroy', removeInterceptor);
             }])
-            .controller('fooCtrl', ['$scope', 'clPreventNavigation', function ($scope, clPreventNavigation) {
+            .controller('fooCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
                 // ... controller code
             }])
-            .controller('barCtrl', ['$scope', 'clPreventNavigation', function ($scope, clPreventNavigation) {
+            .controller('barCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
                 $scope.name = 'modify me';
-                var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+                var removeInterceptor = clPreventNav.addInterceptor(function () {
                     return $scope.form.$pristine;
                 }, null, 'Changes to your form will be lost.');
                 $scope.save = function () {
@@ -77,7 +77,7 @@ elements.
             </p>
             <p class="checkbox"><label><input type="checkbox" ng-model="disable">Disable navigation</label></p>
             <div ng-view class="well"></div>
-            <p class="well">Navigation is currently: {{nav.navigationEnabled ? 'enabled' : 'disabled'}}</p>
+            <p class="well">Navigation is currently: {{nav.prevented ? 'prevented' : 'not prevented'}}</p>
         </div>
     </doc:source>
 </doc:example>

@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    var module = angular.module('ng.cl.preventNavigation', []);
+    var module = angular.module('ng.cl.prevent-nav', []);
 
     /**
      * @param {array} Array the array to modify
@@ -48,14 +48,14 @@
 
     /**
      * @ngdoc object
-     * @name ng.cl.preventNavigation.clPreventNavigationProvider
+     * @name ng.cl.prevent-nav.clPreventNavProvider
      *
      * @description
-     * Allows the {@link ng.cl.preventNavigation.clPreventNavigation clPreventNavigation} service to be configured.
+     * Allows the {@link ng.cl.prevent-nav.clPreventNav clPreventNav} service to be configured.
      */
-    module.provider('clPreventNavigation', [
+    module.provider('clPreventNav', [
 
-        function clPreventNavigationProvider() {
+        function clPreventNavProvider() {
 
             /**
              * @type {Object} provider configuration.
@@ -69,10 +69,10 @@
             /**
              * @ngdoc function
              * @name configure
-             * @methodOf ng.cl.preventNavigation.clPreventNavigationProvider
+             * @methodOf ng.cl.prevent-nav.clPreventNavProvider
              *
              * @description
-             * Configures the {@link ng.cl.preventNavigation.clPreventNavigation clPreventNavigation} service.
+             * Configures the {@link ng.cl.prevent-nav.clPreventNav clPreventNav} service.
              *
              * @param {Object} config Object with configuration options, extends base configuration.
              * ```
@@ -94,7 +94,7 @@
 
             /**
              * @ngdoc object
-             * @name ng.cl.preventNavigation.clPreventNavigation
+             * @name ng.cl.prevent-nav.clPreventNav
              *
              * @description
              * Provides a `addInterceptor()` method to register check functions to enable/disable navigation, allowing
@@ -112,19 +112,19 @@
              * `window.onbeforeunload` event too, giving the user the chance to cancel accidental navigation (ex: when
              * refreshing the page, using the back button or modifying the URL directly in the browser address bar).
              *
-             * @property {boolean} navigationEnabled   **Boolean** *Read-only* Whether navigation is enabled or being prevented by an interceptor.
-             * @property {boolean} navigationSuspended **Boolean** *Read-only* Whether a navigation event was prevented and the existing `handleFn` series did not reject/resolve.
-             * @property {array}   messages            **Array**   *Read-only* The list of messages (reasons) why navigation is disabled, if any.
-             * @property {string}  dlgHeader           **String**  *Read-only* The configured dialog header.
-             * @property {string}  msgPrefix           **String**  *Read-only* The configured message prefix.
-             * @property {string}  defaultMsg          **String**  *Read-only* The configured default message.
+             * @property {boolean} prevented  **Boolean** *Read-only* Whether navigation is enabled or being prevented by an interceptor.
+             * @property {boolean} suspended  **Boolean** *Read-only* Whether a navigation event was prevented and the existing `handleFn` series did not reject/resolve.
+             * @property {array}   messages   **Array**   *Read-only* The list of messages (reasons) why navigation is disabled, if any.
+             * @property {string}  dlgHeader  **String**  *Read-only* The configured dialog header.
+             * @property {string}  msgPrefix  **String**  *Read-only* The configured message prefix.
+             * @property {string}  defaultMsg **String**  *Read-only* The configured default message.
              */
             this.$get = [
                 '$rootScope',
                 '$q',
                 '$window',
                 '$location',
-                function clPreventNavigation($rootScope, $q, $window, $location) {
+                function clPreventNav($rootScope, $q, $window, $location) {
 
                     /**
                      * @var {array} stores the current active interceptors
@@ -137,16 +137,16 @@
                     var unwatch = null;
 
                     /**
-                     * @var {boolean} becomes false if at least one interceptor checkFn returns false
+                     * @var {boolean} becomes true if at least one interceptor checkFn returns false
                      */
-                    var navigationEnabled = true;
+                    var prevented = false;
 
                     /**
                      * @var {boolean} becomes true when a cancelled $locationChangeStart event is prevented by at least
                      *                  one checkFn AND at least one handleFn has been registered
                      *                resets back to null when the handleFn series is rejected/resolved
                      */
-                    var navigationSuspended = false;
+                    var suspended = false;
 
                     /**
                      * @var {string} becomes set with the target path of a cancelled $locationChangeStart event when it
@@ -176,23 +176,23 @@
                         var ix;
                         var interceptor;
                         // reset
-                        navigationEnabled = true;
+                        prevented = false;
                         messages.length = 0;
                         // check all interceptors
                         for (ix = 0; ix < interceptors.length; ix++) {
                             interceptor = interceptors[ix];
                             // computer says no
                             if (!interceptor.checkFn()) {
-                                navigationEnabled = false;
+                                prevented = true;
                                 if (interceptor.message) {
                                     messages.push(interceptor.message);
                                 }
                             }
                         }
-                        if (!navigationEnabled && !messages.length) {
+                        if (prevented && !messages.length) {
                             messages = [serviceConfig.defaultMsg];
                         }
-                        return navigationEnabled;
+                        return prevented;
                     }
 
                     function onbeforeunload() {
@@ -207,7 +207,7 @@
                      * if navigation is disabled, setup onbeforeunload
                      */
                     function updateOnbeforeunload() {
-                        $window.onbeforeunload = navigationEnabled ? null : onbeforeunload;
+                        $window.onbeforeunload = prevented ? onbeforeunload : null;
                     }
 
                     var serviceApi = {
@@ -215,7 +215,7 @@
                         /**
                          * @ngdoc method
                          * @name addInterceptor
-                         * @methodOf ng.cl.preventNavigation.clPreventNavigation
+                         * @methodOf ng.cl.prevent-nav.clPreventNav
                          *
                          * @description
                          * Registers an interceptor to be executed before route changes. Interceptors can accept or reject the
@@ -269,11 +269,11 @@
                             return;
                         }
                         // if a previous navigation has been suspended and not resolved/rejected yet, cancel it again
-                        if (navigationSuspended) {
+                        if (suspended) {
                             event.preventDefault();
                         }
                         // if navigation is currently disabled, cancel the location change
-                        else if (!navigationEnabled && suspendedPath !== path) {
+                        else if (prevented && suspendedPath !== path) {
 
                             // prevent navigation
                             // will set path back to original an smash history :-(
@@ -290,15 +290,15 @@
                             // if all the blocking interceptors have handler functions
                             if (allHandled && series.length) {
                                 suspendedPath = path;
-                                navigationSuspended = true;
+                                suspended = true;
                                 executeSeries($q, series).then(function () {
                                     // if all resolve their promises, resume the location
                                     $location.path(suspendedPath);
                                     navigationResumed = true;
-                                    navigationSuspended = false;
+                                    suspended = false;
                                 }, function () {
                                     suspendedPath = null;
-                                    navigationSuspended = false;
+                                    suspended = false;
                                 });
                             }
                         }
@@ -323,11 +323,11 @@
                         });
                     }
 
-                    addReadOnlyProperty('navigationEnabled', function () {
-                        return navigationEnabled;
+                    addReadOnlyProperty('prevented', function () {
+                        return prevented;
                     });
-                    addReadOnlyProperty('navigationSuspended', function () {
-                        return navigationSuspended;
+                    addReadOnlyProperty('suspended', function () {
+                        return suspended;
                     });
                     addReadOnlyProperty('messages', function () {
                         return messages;

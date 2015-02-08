@@ -1,5 +1,5 @@
 {
-  "name": "ng.cl.preventNavigation",
+  "name": "ng.cl.prevent-nav",
   "version": "0.0.1",
   "description": "Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.",
   "author": {
@@ -16,11 +16,11 @@
     "angularjs",
     "window"
   ],
-  "homepage": "https://github.com/cork-labs/ng.cl.preventNavigation",
-  "bugs": "https://github.com/cork-labs/ng.cl.preventNavigation/issues",
+  "homepage": "https://github.com/cork-labs/ng.cl.prevent-nav",
+  "bugs": "https://github.com/cork-labs/ng.cl.prevent-nav/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cork-labs/ng.cl.preventNavigation.git"
+    "url": "git@github.com:cork-labs/ng.cl.prevent-nav.git"
   },
   "readmeFilename": "README.md",
   "dependencies": {

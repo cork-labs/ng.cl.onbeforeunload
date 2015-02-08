@@ -143,7 +143,7 @@ module.exports = function (grunt, data) {
 
             // used in the name of the template module (results in "my.module.templates")
             // as well as filenames of dist files
-            ngNamespace: 'ng.cl.preventNavigation',
+            ngNamespace: 'ng.cl.prevent-nav',
 
             // -- docs related
 

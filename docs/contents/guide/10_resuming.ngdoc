@@ -7,7 +7,7 @@
 The interceptors can also register a `handleFn` function to to act upon a cancelled navigation.
 
 ```javascript
-var removeInterceptor = clPreventNavigation.addInterceptor(checkFn, handleFn, message);
+var removeInterceptor = clPreventNav.addInterceptor(checkFn, handleFn, message);
 ```
 
 The optional `handleFn` **must** be a function, and if provided it **must** return a promise.
@@ -25,10 +25,10 @@ which returns a promise resolved when the user confirms the dialog and rejected 
 ```javascript
 module.controller('someCtrl', [
     '$scope',
-    'clPreventNavigation',
+    'clPreventNav',
     'dialogs',
-    function ($scope, clPreventNavigation, dialogs) {
-        var removeInterceptor = clPreventNavigation.addInterceptor(function () {
+    function ($scope, clPreventNav, dialogs) {
+        var removeInterceptor = clPreventNav.addInterceptor(function () {
             return $scope.form.$pristine;
         }, function () {
             return dialogs.confirm('Do you want to navigate? All your changes will be lost!');
