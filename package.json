@@ -1,6 +1,6 @@
 {
   "name": "ng.cl.prevent-nav",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.",
   "author": {
     "name": "Cork Labs",
