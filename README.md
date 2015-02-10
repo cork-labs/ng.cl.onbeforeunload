@@ -15,12 +15,6 @@ Via bower:
 $ bower install --save ng.cl.prevent-nav
 ```
 
-Via npm:
-
-```
-$ npm install --save ng.cl.prevent-nav
-```
-
 Include the following JS files in your build:
 - `dist/ng.cl.prevent-nav.js` OR `dist/ng.cl.prevent-nav.min.js`
 
