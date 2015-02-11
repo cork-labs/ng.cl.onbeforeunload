@@ -6,9 +6,9 @@
 
 The `ng.cl.prevent-nav` module provides a method to register check functions to enable/disable navigation.
 
-```javascript
+<pre>
 var removeInterceptor = clPreventNav.addInterceptor(checkFn, handleFn, message);
-```
+</pre>
 
 The `checkFn` argument must a function that returns `false` if navigation should be suspended and `true` otherwise.
 
@@ -22,7 +22,7 @@ be cancelled.
 **Example:** Assuming your scope contains a form named `form`, here's how to prevent navigation whenever the form is
 dirty.
 
-```javascript
+<pre>
 module.controller('someCtrl', [
     '$scope',
     'clPreventNav',
@@ -33,7 +33,7 @@ module.controller('someCtrl', [
     }
 ]);
 
-```
+</pre>
 
 **Note:** these checks are evaluated on every digest cycle. You should keep to simple and quick evaluations.
 
@@ -42,8 +42,8 @@ You should remove the interceptor by calling the returned deregistration functio
 You **must** remove the interceptor when destroying the scope, in order to avoid further invocation of the `checkFn`.
 
 
-```javascript
+<pre>
 $scope.$on('$destroy', function () {
     removeInterceptor();
 })
-```
+</pre>
