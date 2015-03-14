@@ -52,14 +52,14 @@ describe('ng.cl.prevent-nav', function () {
 
                 expect(function () {
                     clPreventNav.addInterceptor();
-                }).toThrow('checkFn should be a function.');
+                }).toThrow(new Error('checkFn should be a function.'));
             }));
 
             it('should throw an error if CheckFn is not a function.', inject(function (clPreventNav)  {
 
                 expect(function () {
                     clPreventNav.addInterceptor('foo');
-                }).toThrow('checkFn should be a function.');
+                }).toThrow(new Error('checkFn should be a function.'));
             }));
 
             it('should return a deregistration function.', inject(function (clPreventNav)  {
@@ -109,16 +109,16 @@ describe('ng.cl.prevent-nav', function () {
 
                 // initial call count is 2 because that's the way $scopes initialize
                 // but we don't really care, just need to make sure it's called at least once per digest
-                var callCount = checkFn.calls.length;
+                var callCount = checkFn.calls.count();
 
                 $rootScope.$apply();
 
-                expect(checkFn.calls.length).toBeGreaterThan(callCount);
+                expect(checkFn.calls.count()).toBeGreaterThan(callCount);
             }));
 
             it('should NOT disable nagivation if the "checkFn" returns something "truthy".', inject(function (clPreventNav, $rootScope)  {
 
-                checkFn.andReturn(true);
+                checkFn.and.returnValue(true);
 
                 $rootScope.$apply();
 
@@ -136,10 +136,10 @@ describe('ng.cl.prevent-nav', function () {
 
             it('should still disable nagivation even if another "checkFn" returns "truthy".', inject(function (clPreventNav, $rootScope)  {
 
-                checkFn.andReturn(false);
+                checkFn.and.returnValue(false);
 
                 var checkFn2 = jasmine.createSpy('checkFn2');
-                checkFn2.andReturn(true);
+                checkFn2.and.returnValue(true);
                 clPreventNav.addInterceptor(checkFn2);
 
                 $rootScope.$apply();
@@ -151,7 +151,7 @@ describe('ng.cl.prevent-nav', function () {
             it('should disable re-enable nagivation when all "checkFn" return "truthy".', inject(function (clPreventNav, $rootScope)  {
 
                 $rootScope.$apply();
-                checkFn.andReturn(true);
+                checkFn.and.returnValue(true);
 
                 $rootScope.$apply();
 
@@ -177,13 +177,13 @@ describe('ng.cl.prevent-nav', function () {
 
                 // initial call count is 2 because that's the way $scopes initialize
                 // but we don't really care, just need to make sure it's NOT called again
-                var callCount = checkFn.calls.length;
+                var callCount = checkFn.calls.count();
 
                 deregister();
 
                 $rootScope.$apply();
 
-                expect(checkFn.calls.length).toBe(callCount);
+                expect(checkFn.calls.count()).toBe(callCount);
             }));
         });
 
@@ -295,18 +295,18 @@ describe('ng.cl.prevent-nav', function () {
 
                 beforeEach(inject(function (clPreventNav) {
                     checkFn = jasmine.createSpy('checkFn');
-                    checkFn.andReturn(false);
+                    checkFn.and.returnValue(false);
                     clPreventNav.addInterceptor(checkFn);
                 }));
 
                 it('should unbind onbeforeunload', inject(function (clPreventNav, $rootScope)  {
 
-                    checkFn.andReturn(false);
+                    checkFn.and.returnValue(false);
                     $rootScope.$apply();
 
                     expect(typeof $windowMock.onbeforeunload).toBe('function');
 
-                    checkFn.andReturn(true);
+                    checkFn.and.returnValue(true);
                     $rootScope.$apply();
 
                     expect($windowMock.onbeforeunload).toBeNull();
@@ -330,7 +330,7 @@ describe('ng.cl.prevent-nav', function () {
                 describe('and the "checkFn" is returning true', function () {
 
                     beforeEach(inject(function ($rootScope, $location) {
-                        checkFn.andReturn(true);
+                        checkFn.and.returnValue(true);
                         $rootScope.$apply();
                         $location.path('/foo');
                         $rootScope.$apply();
@@ -345,7 +345,7 @@ describe('ng.cl.prevent-nav', function () {
                 describe('and the "checkFn" is returning false', function () {
 
                     beforeEach(inject(function ($rootScope) {
-                        checkFn.andReturn(false);
+                        checkFn.and.returnValue(false);
                         $rootScope.$apply();
                     }));
 
@@ -355,7 +355,7 @@ describe('ng.cl.prevent-nav', function () {
                         $rootScope.$apply();
 
                         expect(handleFn).toHaveBeenCalled();
-                        expect(handleFn.calls.length).toBe(1);
+                        expect(handleFn.calls.count()).toBe(1);
                     }));
 
                     describe('and the "handleFn" returns nothing', function () {
@@ -366,7 +366,7 @@ describe('ng.cl.prevent-nav', function () {
                             $rootScope.$apply();
 
                             expect(handleFn).toHaveBeenCalled();
-                            expect(handleFn.calls.length).toBe(1);
+                            expect(handleFn.calls.count()).toBe(1);
                         }));
                     });
 
@@ -376,7 +376,7 @@ describe('ng.cl.prevent-nav', function () {
 
                         beforeEach(inject(function ($q) {
                             defer = $q.defer();
-                            handleFn.andReturn(defer.promise);
+                            handleFn.and.returnValue(defer.promise);
                         }));
 
                         it('should suspend navigation.', inject(function (clPreventNav, $rootScope, $location)  {
@@ -385,7 +385,7 @@ describe('ng.cl.prevent-nav', function () {
                             $rootScope.$apply();
 
                             expect(handleFn).toHaveBeenCalled();
-                            expect(handleFn.calls.length).toBe(1);
+                            expect(handleFn.calls.count()).toBe(1);
                             expect(clPreventNav.suspended).toBe(true);
                             expect($location.path()).toBe('');
                         }));
@@ -466,8 +466,8 @@ describe('ng.cl.prevent-nav', function () {
                     handleFn2 = jasmine.createSpy('handleFn2');
                     defer = $q.defer();
                     defer2 = $q.defer();
-                    handleFn.andReturn(defer.promise);
-                    handleFn2.andReturn(defer2.promise);
+                    handleFn.and.returnValue(defer.promise);
+                    handleFn2.and.returnValue(defer2.promise);
                 }));
 
                 describe('and only one of the "checkFn" is returning false', function () {
@@ -615,4 +615,3 @@ describe('ng.cl.prevent-nav', function () {
         });
     });
 });
-
