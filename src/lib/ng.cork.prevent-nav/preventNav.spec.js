@@ -1,70 +1,70 @@
-describe('ng.cl.prevent-nav', function () {
+describe('ng.cork.prevent-nav', function () {
     'use strict';
 
-    beforeEach(module('ng.cl.prevent-nav'));
+    beforeEach(module('ng.cork.prevent-nav'));
 
-    var clPreventNavProvider;
+    var corkPreventNavProvider;
     beforeEach(function () {
-        module(function (_clPreventNavProvider_) {
-            clPreventNavProvider = _clPreventNavProvider_;
+        module(function (_corkPreventNavProvider_) {
+            corkPreventNavProvider = _corkPreventNavProvider_;
         });
     });
 
-    describe('clPreventNavProvider', function () {
+    describe('corkPreventNavProvider', function () {
 
-        it('should initialize with known defaults.', inject(function (clPreventNav) {
+        it('should initialize with known defaults.', inject(function (corkPreventNav) {
 
             var dlgHeader = 'Warning:';
             var msgPrefix = ' - ';
             var defaultMsg = 'All changes not yet saved will be lost.';
 
-            expect(clPreventNav.dlgHeader).toBe(dlgHeader);
-            expect(clPreventNav.msgPrefix).toBe(msgPrefix);
-            expect(clPreventNav.defaultMsg).toBe(defaultMsg);
+            expect(corkPreventNav.dlgHeader).toBe(dlgHeader);
+            expect(corkPreventNav.msgPrefix).toBe(msgPrefix);
+            expect(corkPreventNav.defaultMsg).toBe(defaultMsg);
         }));
 
         describe('configure()', function () {
 
-            it('should store the provided configuration.', inject(function (clPreventNav) {
+            it('should store the provided configuration.', inject(function (corkPreventNav) {
 
                 var dlgHeader = 'foo';
                 var msgPrefix = 'bar';
                 var defaultMsg = 'baz';
 
-                clPreventNavProvider.configure({
+                corkPreventNavProvider.configure({
                     dlgHeader: dlgHeader,
                     msgPrefix: msgPrefix,
                     defaultMsg: defaultMsg
                 });
 
-                expect(clPreventNav.dlgHeader).toBe(dlgHeader);
-                expect(clPreventNav.msgPrefix).toBe(msgPrefix);
-                expect(clPreventNav.defaultMsg).toBe(defaultMsg);
+                expect(corkPreventNav.dlgHeader).toBe(dlgHeader);
+                expect(corkPreventNav.msgPrefix).toBe(msgPrefix);
+                expect(corkPreventNav.defaultMsg).toBe(defaultMsg);
             }));
         });
     });
 
-    describe('clPreventNav', function () {
+    describe('corkPreventNav', function () {
 
         describe('addInterceptor()', function () {
 
-            it('should throw an error if CheckFn is not provided.', inject(function (clPreventNav)  {
+            it('should throw an error if CheckFn is not provided.', inject(function (corkPreventNav)  {
 
                 expect(function () {
-                    clPreventNav.addInterceptor();
+                    corkPreventNav.addInterceptor();
                 }).toThrow(new Error('checkFn should be a function.'));
             }));
 
-            it('should throw an error if CheckFn is not a function.', inject(function (clPreventNav)  {
+            it('should throw an error if CheckFn is not a function.', inject(function (corkPreventNav)  {
 
                 expect(function () {
-                    clPreventNav.addInterceptor('foo');
+                    corkPreventNav.addInterceptor('foo');
                 }).toThrow(new Error('checkFn should be a function.'));
             }));
 
-            it('should return a deregistration function.', inject(function (clPreventNav)  {
+            it('should return a deregistration function.', inject(function (corkPreventNav)  {
 
-                var fn = clPreventNav.addInterceptor(function () {});
+                var fn = corkPreventNav.addInterceptor(function () {});
 
                 expect(typeof fn).toBe('function');
                 // invoking it just to make sure there's no error
@@ -75,20 +75,20 @@ describe('ng.cl.prevent-nav', function () {
 
         describe('default state', function () {
 
-            it('should have navigation enabled.', inject(function (clPreventNav)  {
+            it('should have navigation enabled.', inject(function (corkPreventNav)  {
 
-                expect(clPreventNav.prevented).toBe(false);
+                expect(corkPreventNav.prevented).toBe(false);
             }));
 
-            it('should NOT have navigation suspended.', inject(function (clPreventNav)  {
+            it('should NOT have navigation suspended.', inject(function (corkPreventNav)  {
 
-                expect(clPreventNav.suspended).toBe(false);
+                expect(corkPreventNav.suspended).toBe(false);
             }));
 
-            it('should NOT have an empty list of messages.', inject(function (clPreventNav)  {
+            it('should NOT have an empty list of messages.', inject(function (corkPreventNav)  {
 
-                expect(typeof clPreventNav.messages).toBe('object');
-                expect(clPreventNav.messages.length).toBe(0);
+                expect(typeof corkPreventNav.messages).toBe('object');
+                expect(corkPreventNav.messages.length).toBe(0);
             }));
         });
 
@@ -96,12 +96,12 @@ describe('ng.cl.prevent-nav', function () {
 
             var checkFn;
 
-            beforeEach(inject(function (clPreventNav) {
+            beforeEach(inject(function (corkPreventNav) {
                 checkFn = jasmine.createSpy('checkFn');
-                clPreventNav.addInterceptor(checkFn);
+                corkPreventNav.addInterceptor(checkFn);
             }));
 
-            it('should should invoke it`s "checkFn" on every digest cycle.', inject(function (clPreventNav, $rootScope)  {
+            it('should should invoke it`s "checkFn" on every digest cycle.', inject(function (corkPreventNav, $rootScope)  {
 
                 $rootScope.$apply();
 
@@ -116,46 +116,46 @@ describe('ng.cl.prevent-nav', function () {
                 expect(checkFn.calls.count()).toBeGreaterThan(callCount);
             }));
 
-            it('should NOT disable nagivation if the "checkFn" returns something "truthy".', inject(function (clPreventNav, $rootScope)  {
+            it('should NOT disable nagivation if the "checkFn" returns something "truthy".', inject(function (corkPreventNav, $rootScope)  {
 
                 checkFn.and.returnValue(true);
 
                 $rootScope.$apply();
 
-                expect(clPreventNav.prevented).toBe(false);
+                expect(corkPreventNav.prevented).toBe(false);
             }));
 
-            it('should disable nagivation once the "checkFn" returns something "falsy".', inject(function (clPreventNav, $rootScope)  {
+            it('should disable nagivation once the "checkFn" returns something "falsy".', inject(function (corkPreventNav, $rootScope)  {
 
-                clPreventNav.addInterceptor(function () {});
+                corkPreventNav.addInterceptor(function () {});
 
                 $rootScope.$apply();
 
-                expect(clPreventNav.prevented).toBe(true);
+                expect(corkPreventNav.prevented).toBe(true);
             }));
 
-            it('should still disable nagivation even if another "checkFn" returns "truthy".', inject(function (clPreventNav, $rootScope)  {
+            it('should still disable nagivation even if another "checkFn" returns "truthy".', inject(function (corkPreventNav, $rootScope)  {
 
                 checkFn.and.returnValue(false);
 
                 var checkFn2 = jasmine.createSpy('checkFn2');
                 checkFn2.and.returnValue(true);
-                clPreventNav.addInterceptor(checkFn2);
+                corkPreventNav.addInterceptor(checkFn2);
 
                 $rootScope.$apply();
 
                 expect(checkFn2).toHaveBeenCalled();
-                expect(clPreventNav.prevented).toBe(true);
+                expect(corkPreventNav.prevented).toBe(true);
             }));
 
-            it('should disable re-enable nagivation when all "checkFn" return "truthy".', inject(function (clPreventNav, $rootScope)  {
+            it('should disable re-enable nagivation when all "checkFn" return "truthy".', inject(function (corkPreventNav, $rootScope)  {
 
                 $rootScope.$apply();
                 checkFn.and.returnValue(true);
 
                 $rootScope.$apply();
 
-                expect(clPreventNav.prevented).toBe(false);
+                expect(corkPreventNav.prevented).toBe(false);
             }));
         });
 
@@ -164,12 +164,12 @@ describe('ng.cl.prevent-nav', function () {
             var checkFn;
             var deregister;
 
-            beforeEach(inject(function (clPreventNav) {
+            beforeEach(inject(function (corkPreventNav) {
                 checkFn = jasmine.createSpy('checkFn');
-                deregister = clPreventNav.addInterceptor(checkFn);
+                deregister = corkPreventNav.addInterceptor(checkFn);
             }));
 
-            it('should should NOT be invoked again.', inject(function (clPreventNav, $rootScope)  {
+            it('should should NOT be invoked again.', inject(function (corkPreventNav, $rootScope)  {
 
                 $rootScope.$apply();
 
@@ -191,11 +191,11 @@ describe('ng.cl.prevent-nav', function () {
 
             var deregister;
 
-            beforeEach(inject(function (clPreventNav) {
-                deregister = clPreventNav.addInterceptor(function () {});
+            beforeEach(inject(function (corkPreventNav) {
+                deregister = corkPreventNav.addInterceptor(function () {});
             }));
 
-            it('should should NOT throw any errors.', inject(function (clPreventNav, $rootScope)  {
+            it('should should NOT throw any errors.', inject(function (corkPreventNav, $rootScope)  {
 
                 deregister();
                 deregister();
@@ -206,32 +206,32 @@ describe('ng.cl.prevent-nav', function () {
 
             describe('when not interceptors ARE blocking', function () {
 
-                beforeEach(inject(function (clPreventNav, $rootScope) {
-                    clPreventNav.addInterceptor(function () {
+                beforeEach(inject(function (corkPreventNav, $rootScope) {
+                    corkPreventNav.addInterceptor(function () {
                         return true;
                     }, null, 'message');
                     $rootScope.$apply();
                 }));
 
-                it('should have no active messages', inject(function (clPreventNav)  {
+                it('should have no active messages', inject(function (corkPreventNav)  {
 
-                    expect(clPreventNav.messages.length).toBe(0);
+                    expect(corkPreventNav.messages.length).toBe(0);
                 }));
             });
 
             describe('when an interceptor without message is blocking', function () {
 
-                beforeEach(inject(function (clPreventNav, $rootScope) {
-                    clPreventNav.addInterceptor(function () {
+                beforeEach(inject(function (corkPreventNav, $rootScope) {
+                    corkPreventNav.addInterceptor(function () {
                         return false;
                     });
                     $rootScope.$apply();
                 }));
 
-                it('should have one message, as configured', inject(function (clPreventNav)  {
+                it('should have one message, as configured', inject(function (corkPreventNav)  {
 
-                    expect(clPreventNav.messages.length).toBe(1);
-                    expect(clPreventNav.messages[1]).toBe(clPreventNavProvider.defaultMsg);
+                    expect(corkPreventNav.messages.length).toBe(1);
+                    expect(corkPreventNav.messages[1]).toBe(corkPreventNavProvider.defaultMsg);
                 }));
             });
 
@@ -239,17 +239,17 @@ describe('ng.cl.prevent-nav', function () {
 
                 var message = 'foobar';
 
-                beforeEach(inject(function (clPreventNav, $rootScope) {
-                    clPreventNav.addInterceptor(function () {
+                beforeEach(inject(function (corkPreventNav, $rootScope) {
+                    corkPreventNav.addInterceptor(function () {
                         return false;
                     }, null, message);
                     $rootScope.$apply();
                 }));
 
-                it('should have one message, as provided with the interceptor', inject(function (clPreventNav)  {
+                it('should have one message, as provided with the interceptor', inject(function (corkPreventNav)  {
 
-                    expect(clPreventNav.messages.length).toBe(1);
-                    expect(clPreventNav.messages[0]).toBe(message);
+                    expect(corkPreventNav.messages.length).toBe(1);
+                    expect(corkPreventNav.messages[0]).toBe(message);
                 }));
             });
         });
@@ -269,19 +269,19 @@ describe('ng.cl.prevent-nav', function () {
 
             describe('when an interceptor without message is blocking', function () {
 
-                beforeEach(inject(function (clPreventNav, $rootScope) {
-                    clPreventNav.addInterceptor(function () {
+                beforeEach(inject(function (corkPreventNav, $rootScope) {
+                    corkPreventNav.addInterceptor(function () {
                         return false;
                     });
                     $rootScope.$apply();
                 }));
 
-                it('should bind onbeforeunload', inject(function (clPreventNav, $rootScope)  {
+                it('should bind onbeforeunload', inject(function (corkPreventNav, $rootScope)  {
 
                     expect(typeof $windowMock.onbeforeunload).toBe('function');
                 }));
 
-                it('should bind onbeforeunload', inject(function (clPreventNav, $rootScope)  {
+                it('should bind onbeforeunload', inject(function (corkPreventNav, $rootScope)  {
 
                     var expected = 'Warning:\n\n - All changes not yet saved will be lost.\n';
 
@@ -293,13 +293,13 @@ describe('ng.cl.prevent-nav', function () {
 
                 var checkFn;
 
-                beforeEach(inject(function (clPreventNav) {
+                beforeEach(inject(function (corkPreventNav) {
                     checkFn = jasmine.createSpy('checkFn');
                     checkFn.and.returnValue(false);
-                    clPreventNav.addInterceptor(checkFn);
+                    corkPreventNav.addInterceptor(checkFn);
                 }));
 
-                it('should unbind onbeforeunload', inject(function (clPreventNav, $rootScope)  {
+                it('should unbind onbeforeunload', inject(function (corkPreventNav, $rootScope)  {
 
                     checkFn.and.returnValue(false);
                     $rootScope.$apply();
@@ -321,10 +321,10 @@ describe('ng.cl.prevent-nav', function () {
                 var checkFn;
                 var handleFn;
 
-                beforeEach(inject(function (clPreventNav) {
+                beforeEach(inject(function (corkPreventNav) {
                     checkFn = jasmine.createSpy('checkFn');
                     handleFn = jasmine.createSpy('handleFn');
-                    clPreventNav.addInterceptor(checkFn, handleFn);
+                    corkPreventNav.addInterceptor(checkFn, handleFn);
                 }));
 
                 describe('and the "checkFn" is returning true', function () {
@@ -336,7 +336,7 @@ describe('ng.cl.prevent-nav', function () {
                         $rootScope.$apply();
                     }));
 
-                    it('should NOT invoke the "handleFn" after a $locationChanteStart event.', inject(function (clPreventNav, $rootScope)  {
+                    it('should NOT invoke the "handleFn" after a $locationChanteStart event.', inject(function (corkPreventNav, $rootScope)  {
 
                         expect(handleFn).not.toHaveBeenCalled();
                     }));
@@ -349,7 +349,7 @@ describe('ng.cl.prevent-nav', function () {
                         $rootScope.$apply();
                     }));
 
-                    it('should invoke the "handleFn" after a $locationChanteStart event.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should invoke the "handleFn" after a $locationChanteStart event.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
@@ -360,7 +360,7 @@ describe('ng.cl.prevent-nav', function () {
 
                     describe('and the "handleFn" returns nothing', function () {
 
-                        it('should invoke the "handleFn" after a $locationChanteStart event.', inject(function (clPreventNav, $rootScope, $location)  {
+                        it('should invoke the "handleFn" after a $locationChanteStart event.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                             $location.path('/foo');
                             $rootScope.$apply();
@@ -379,14 +379,14 @@ describe('ng.cl.prevent-nav', function () {
                             handleFn.and.returnValue(defer.promise);
                         }));
 
-                        it('should suspend navigation.', inject(function (clPreventNav, $rootScope, $location)  {
+                        it('should suspend navigation.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                             $location.path('/foo');
                             $rootScope.$apply();
 
                             expect(handleFn).toHaveBeenCalled();
                             expect(handleFn.calls.count()).toBe(1);
-                            expect(clPreventNav.suspended).toBe(true);
+                            expect(corkPreventNav.suspended).toBe(true);
                             expect($location.path()).toBe('');
                         }));
 
@@ -399,9 +399,9 @@ describe('ng.cl.prevent-nav', function () {
                                 $rootScope.$apply();
                             }));
 
-                            it('should unsuspend navigation and navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                            it('should unsuspend navigation and navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                                expect(clPreventNav.suspended).toBe(false);
+                                expect(corkPreventNav.suspended).toBe(false);
                                 expect($location.path()).toBe('/foo');
                             }));
                         });
@@ -413,9 +413,9 @@ describe('ng.cl.prevent-nav', function () {
                                 $rootScope.$apply();
                             }));
 
-                            it('should unsuspend navigation an NOT navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                            it('should unsuspend navigation an NOT navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                                expect(clPreventNav.suspended).toBe(false);
+                                expect(corkPreventNav.suspended).toBe(false);
                                 expect($location.path()).toBe('');
                             }));
                         });
@@ -427,12 +427,12 @@ describe('ng.cl.prevent-nav', function () {
 
                 var handleFn;
 
-                beforeEach(inject(function (clPreventNav, $location, $rootScope) {
+                beforeEach(inject(function (corkPreventNav, $location, $rootScope) {
                     handleFn = jasmine.createSpy('handleFn');
-                    clPreventNav.addInterceptor(function () {
+                    corkPreventNav.addInterceptor(function () {
                         return false;
                     });
-                    clPreventNav.addInterceptor(function () {
+                    corkPreventNav.addInterceptor(function () {
                         return false;
                     }, handleFn);
                     $location.path('/foo');
@@ -441,14 +441,14 @@ describe('ng.cl.prevent-nav', function () {
 
                 describe('and the "checkFn" is returning false', function () {
 
-                    it('should NOT invoke the "handleFn" after a $locationChanteStart event.', inject(function (clPreventNav, $rootScope)  {
+                    it('should NOT invoke the "handleFn" after a $locationChanteStart event.', inject(function (corkPreventNav, $rootScope)  {
 
                         expect(handleFn).not.toHaveBeenCalled();
                     }));
 
-                    it('should NOT suspend navigation NOR navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should NOT suspend navigation NOR navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                        expect(clPreventNav.suspended).toBe(false);
+                        expect(corkPreventNav.suspended).toBe(false);
                         expect($location.path()).toBe('');
                     }));
                 });
@@ -461,7 +461,7 @@ describe('ng.cl.prevent-nav', function () {
                 var defer;
                 var defer2;
 
-                beforeEach(inject(function (clPreventNav, $q) {
+                beforeEach(inject(function (corkPreventNav, $q) {
                     handleFn = jasmine.createSpy('handleFn');
                     handleFn2 = jasmine.createSpy('handleFn2');
                     defer = $q.defer();
@@ -472,16 +472,16 @@ describe('ng.cl.prevent-nav', function () {
 
                 describe('and only one of the "checkFn" is returning false', function () {
 
-                    beforeEach(inject(function (clPreventNav, $q) {
-                        clPreventNav.addInterceptor(function () {
+                    beforeEach(inject(function (corkPreventNav, $q) {
+                        corkPreventNav.addInterceptor(function () {
                             return true;
                         }, handleFn);
-                        clPreventNav.addInterceptor(function () {
+                        corkPreventNav.addInterceptor(function () {
                             return false;
                         }, handleFn2);
                     }));
 
-                    it('should only invoke the "handleFn" of the blocking check.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should only invoke the "handleFn" of the blocking check.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
@@ -490,50 +490,50 @@ describe('ng.cl.prevent-nav', function () {
                         expect(handleFn2).toHaveBeenCalled();
                     }));
 
-                    it('should suspend navigation.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should suspend navigation.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
 
-                        expect(clPreventNav.suspended).toBe(true);
+                        expect(corkPreventNav.suspended).toBe(true);
                         expect($location.path()).toBe('');
                     }));
 
-                    it('should unsuspend navigation and navigate after promise is resolved.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should unsuspend navigation and navigate after promise is resolved.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
                         defer2.resolve();
                         $rootScope.$apply();
 
-                        expect(clPreventNav.suspended).toBe(false);
+                        expect(corkPreventNav.suspended).toBe(false);
                         expect($location.path()).toBe('/foo');
                     }));
 
-                    it('should unsuspend navigation and navigate after promise is rejected.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should unsuspend navigation and navigate after promise is rejected.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
                         defer2.reject();
                         $rootScope.$apply();
 
-                        expect(clPreventNav.suspended).toBe(false);
+                        expect(corkPreventNav.suspended).toBe(false);
                         expect($location.path()).toBe('');
                     }));
                 });
 
                 describe('and ALL the "checkFn" are returning false', function () {
 
-                    beforeEach(inject(function (clPreventNav, $q) {
-                        clPreventNav.addInterceptor(function () {
+                    beforeEach(inject(function (corkPreventNav, $q) {
+                        corkPreventNav.addInterceptor(function () {
                             return false;
                         }, handleFn);
-                        clPreventNav.addInterceptor(function () {
+                        corkPreventNav.addInterceptor(function () {
                             return false;
                         }, handleFn2);
                     }));
 
-                    it('should invoke the "handleFn" of the FIRST blocking check.', inject(function (clPreventNav, $rootScope, $location)  {
+                    it('should invoke the "handleFn" of the FIRST blocking check.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                         $location.path('/foo');
                         $rootScope.$apply();
@@ -551,9 +551,9 @@ describe('ng.cl.prevent-nav', function () {
                             $rootScope.$apply();
                         }));
 
-                        it('should unsuspend navigation and NOT navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                        it('should unsuspend navigation and NOT navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                            expect(clPreventNav.suspended).toBe(false);
+                            expect(corkPreventNav.suspended).toBe(false);
                             expect($location.path()).toBe('');
                         }));
                     });
@@ -567,7 +567,7 @@ describe('ng.cl.prevent-nav', function () {
                             $rootScope.$apply();
                         }));
 
-                        it('should invoke the "handleFn" of the SECOND blocking check.', inject(function (clPreventNav, $rootScope, $location)  {
+                        it('should invoke the "handleFn" of the SECOND blocking check.', inject(function (corkPreventNav, $rootScope, $location)  {
 
                             expect(handleFn2).toHaveBeenCalled();
                         }));
@@ -583,9 +583,9 @@ describe('ng.cl.prevent-nav', function () {
                                 $rootScope.$apply();
                             }));
 
-                            it('should unsuspend navigation and navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                            it('should unsuspend navigation and navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                                expect(clPreventNav.suspended).toBe(false);
+                                expect(corkPreventNav.suspended).toBe(false);
                                 expect($location.path()).toBe('/foo');
                             }));
 
@@ -602,9 +602,9 @@ describe('ng.cl.prevent-nav', function () {
                                 $rootScope.$apply();
                             }));
 
-                            it('should unsuspend navigation and NOT navigate.', inject(function (clPreventNav, $rootScope, $location)  {
+                            it('should unsuspend navigation and NOT navigate.', inject(function (corkPreventNav, $rootScope, $location)  {
 
-                                expect(clPreventNav.suspended).toBe(false);
+                                expect(corkPreventNav.suspended).toBe(false);
                                 expect($location.path()).toBe('/foo');
                             }));
 

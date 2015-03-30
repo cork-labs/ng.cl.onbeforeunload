@@ -4,10 +4,10 @@
 
 # Preventing Navigation
 
-The `ng.cl.prevent-nav` module provides a method to register check functions to enable/disable navigation.
+The `ng.cork.prevent-nav` module provides a method to register check functions to enable/disable navigation.
 
 <pre>
-var removeInterceptor = clPreventNav.addInterceptor(checkFn, handleFn, message);
+var removeInterceptor = corkPreventNav.addInterceptor(checkFn, handleFn, message);
 </pre>
 
 The `checkFn` argument must a function that returns `false` if navigation should be suspended and `true` otherwise.
@@ -25,9 +25,9 @@ dirty.
 <pre>
 module.controller('someCtrl', [
     '$scope',
-    'clPreventNav',
-    function ($scope, clPreventNav) {
-        var removeInterceptor = clPreventNav.addInterceptor(function () {
+    'corkPreventNav',
+    function ($scope, corkPreventNav) {
+        var removeInterceptor = corkPreventNav.addInterceptor(function () {
             return $scope.form.$pristine;
         })
     }

@@ -2,33 +2,33 @@
 @name Guide
 @description
 
-# ng.cl.prevent-nav
+# ng.cork.prevent-nav
 
-[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cl.prevent-nav/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cl.prevent-nav)
-[![Bower version](http://img.shields.io/bower/v/ng.cl.prevent-nav.svg?style=flat-square)](https://github.com/cork-labs/ng.cl.prevent-nav)
+[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cork.prevent-nav/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cork.prevent-nav)
+[![Bower version](http://img.shields.io/bower/v/ng.cork.prevent-nav.svg?style=flat-square)](https://github.com/cork-labs/ng.cork.prevent-nav)
 
 > Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.
 
 
 ## Getting Started
 
-Add **ng.cl.prevent-nav** to you project.
+Add **ng.cork.prevent-nav** to you project.
 
 Via bower:
 
 ```
-$ bower install --save ng.cl.prevent-nav
+$ bower install --save ng.cork.prevent-nav
 ```
 
 Include the following JS files in your build:
-- `dist/ng.cl.prevent-nav.js` OR `dist/ng.cl.prevent-nav.min.js`
+- `dist/ng.cork.prevent-nav.js` OR `dist/ng.cork.prevent-nav.min.js`
 
 
 ## Quick Guide
 
 ### Preventing navigation
 
-The `ng.cl.prevent-nav` module provides a method to register check functions to enable/disable navigation, allowing
+The `ng.cork.prevent-nav` module provides a method to register check functions to enable/disable navigation, allowing
 decoupled components to delegate this responsibility to this service.
 
 When at least one of this checks is returning `false`, navigation is suspended, i.e., all
@@ -36,7 +36,7 @@ When at least one of this checks is returning `false`, navigation is suspended, 
 be cancelled.
 
 ```
-clPreventNav.addInterceptor(function () {
+corkPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 });
 ```
@@ -51,7 +51,7 @@ The interceptors can also register a `handleFn` function to to act upon a cancel
 show a dialog to the user prompting to confirm the navigation and warning of the consequences of such.
 
 ```
-var removeInterceptor = clPreventNav.addInterceptor(function () {
+var removeInterceptor = corkPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 }, function () {
     // assuming dialog.show() returns a promise resolved when the user confirms the dialog, rejected if he cancels
@@ -70,7 +70,7 @@ This gives the user the chance to cancel accidental navigation (ex: when refresh
 modifying the URL directly in the browser address bar).
 
 ```
-clPreventNav.addInterceptor(function () {
+corkPreventNav.addInterceptor(function () {
     return $scope.form.$pristine;
 }, angular.noop, 'All the changes will be lost!');
 ```
@@ -80,12 +80,12 @@ Read more about [onbeforeunload](#/guide/20_onbeforeunload).
 
 ### Configuring the service.
 
-The service is configurable via the [clPreventNavProvider](#/api/ng.cl.prevent-nav.clPreventNavProvider).
+The service is configurable via the [corkPreventNavProvider](#/api/ng.cork.prevent-nav.corkPreventNavProvider).
 
 It allows you to set the dialog message header and default warnings:
 
 ```
-clPreventNavProvider.configure({
+corkPreventNavProvider.configure({
     msgPrefix: ' * '
 });
 ```
@@ -97,7 +97,7 @@ Make sure you check all the [configuration settings](#/guide/30_configuration).
 
 We'd love for you to contribute to our source code and to make it even better than it is today!
 
-Make sure you read the [Contributing Guide](https://github.com/cork-labs/ng.cl.prevent-nav/blob/master/CONTRIBUTING.md) first.
+Make sure you read the [Contributing Guide](https://github.com/cork-labs/ng.cork.prevent-nav/blob/master/CONTRIBUTING.md) first.
 
 
 ## Developing

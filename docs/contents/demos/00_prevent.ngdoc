@@ -17,7 +17,7 @@ elements.
 <doc:example module="exampleApp" height="350">
     <doc:source>
         <script>
-            angular.module('exampleApp', ['ngRoute', 'ng.cl.prevent-nav'])
+            angular.module('exampleApp', ['ngRoute', 'ng.cork.prevent-nav'])
             .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
                 //$locationProvider.html5Mode(false);
                 $routeProvider.when('/foo', {
@@ -29,8 +29,8 @@ elements.
                     template: '<h3>Bar</h3><form class="form-group" name="form"><input type="text" class="form-control" ng-model="name"><button class="btn btn-default" ng-click="save()">save</button></form>'
                 });
             }])
-            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNav', function ($scope, $location, clPreventNav) {
-                $scope.nav = clPreventNav;
+            .controller('exampleCtrl', ['$scope', '$location', 'corkPreventNav', function ($scope, $location, corkPreventNav) {
+                $scope.nav = corkPreventNav;
                 $scope.disable = false;
                 $scope.goFoo = function () {
                     $location.path('/foo');
@@ -38,17 +38,17 @@ elements.
                 $scope.goBar = function () {
                     $location.path('/bar', {id: $scope.id});
                 }
-                var removeInterceptor = clPreventNav.addInterceptor(function () {
+                var removeInterceptor = corkPreventNav.addInterceptor(function () {
                     return !$scope.disable;
                 }, null, 'Some other thing will happen.');
                 $scope.$on('$destroy', removeInterceptor);
             }])
-            .controller('fooCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
+            .controller('fooCtrl', ['$scope', 'corkPreventNav', function ($scope, corkPreventNav) {
                 // ... controller code
             }])
-            .controller('barCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
+            .controller('barCtrl', ['$scope', 'corkPreventNav', function ($scope, corkPreventNav) {
                 $scope.name = 'modify me';
-                var removeInterceptor = clPreventNav.addInterceptor(function () {
+                var removeInterceptor = corkPreventNav.addInterceptor(function () {
                     return $scope.form.$pristine;
                 }, null, 'Changes to your form will be lost.');
                 $scope.save = function () {

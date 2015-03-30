@@ -2,13 +2,13 @@
 @name API Reference
 @description
 
-# ng.cl.prevent-nav API Reference
+# ng.cork.prevent-nav API Reference
 
-> Welcome to the **ng.cl.prevent-nav** API reference.
+> Welcome to the **ng.cork.prevent-nav** API reference.
 
-If you want to know how **ng.cl.prevent-nav** works, checkout the {@link guide/ guide} and the {@link demos/ demos}.
+If you want to know how **ng.cork.prevent-nav** works, checkout the {@link guide/ guide} and the {@link demos/ demos}.
 
 
 ## Modules
 
-- **[ng.cl.prevent-nav](#/api/ng.cl.prevent-nav)** - Provides a configurable service that divides numbers by X, as well as a directive and a filter.
+- **[ng.cork.prevent-nav](#/api/ng.cork.prevent-nav)** - Provides a configurable service that divides numbers by X, as well as a directive and a filter.

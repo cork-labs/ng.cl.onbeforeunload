@@ -4,15 +4,15 @@
 
 # Configuration
 
-The service is configurable via the [clPreventNavProvider](#/api/ng.cl.prevent-nav.clPreventNavProvider).
+The service is configurable via the [corkPreventNavProvider](#/api/ng.cork.prevent-nav.corkPreventNavProvider).
 
 It allows you to set the dialog message header and default warnings:
 
 ```javascript
 module.config([
-    'clPreventNav',
-    function (clPreventNavProvider) {
-        clPreventNavProvider.configure({
+    'corkPreventNav',
+    function (corkPreventNavProvider) {
+        corkPreventNavProvider.configure({
             dlgHeader: 'Are you really leaving?',
             msgPrefix: ' * ',
             defaultMsg: 'There`s some unfinished business.'

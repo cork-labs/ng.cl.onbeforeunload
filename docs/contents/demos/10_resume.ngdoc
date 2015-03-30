@@ -8,7 +8,7 @@ In this example we will add a couple of interceptors with `handleFn` to act when
 
 We will use an extremely simple dialog overlay to let the user decide if he wants to resume the prevented navigation.
 
-Note this happens asynchronously. Each instance of the dialog service returns a promise back to the `clPreventNav`
+Note this happens asynchronously. Each instance of the dialog service returns a promise back to the `corkPreventNav`
 service and then resolves/rejects it according to the user response.
 
 As you can see, when both the interceptors are active the user is prompted twice via the dialog service.
@@ -19,7 +19,7 @@ in the `/bar` route to set the form `$dirty`.
 <doc:example module="exampleApp" height="350">
     <doc:source>
         <script>
-            angular.module('exampleApp', ['ngRoute', 'ng.cl.prevent-nav'])
+            angular.module('exampleApp', ['ngRoute', 'ng.cork.prevent-nav'])
             .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
                 //$locationProvider.html5Mode(false);
                 $routeProvider.when('/foo', {
@@ -55,8 +55,8 @@ in the `/bar` route to set the form `$dirty`.
                     return defer.promise;
                 }
             }])
-            .controller('exampleCtrl', ['$scope', '$location', 'clPreventNav', 'confirmDlg', function ($scope, $location, clPreventNav, confirmDlg) {
-                $scope.nav = clPreventNav;
+            .controller('exampleCtrl', ['$scope', '$location', 'corkPreventNav', 'confirmDlg', function ($scope, $location, corkPreventNav, confirmDlg) {
+                $scope.nav = corkPreventNav;
                 $scope.disable = false;
                 var msg = 'Some other thing will happen.';
                 $scope.goFoo = function () {
@@ -65,20 +65,20 @@ in the `/bar` route to set the form `$dirty`.
                 $scope.goBar = function () {
                     $location.path('/bar', {id: $scope.id});
                 }
-                var removeInterceptor = clPreventNav.addInterceptor(function () {
+                var removeInterceptor = corkPreventNav.addInterceptor(function () {
                     return !$scope.disable;
                 }, function () {
                     return confirmDlg('Sure?', msg);
                 }, msg);
                 $scope.$on('$destroy', removeInterceptor);
             }])
-            .controller('fooCtrl', ['$scope', 'clPreventNav', function ($scope, clPreventNav) {
+            .controller('fooCtrl', ['$scope', 'corkPreventNav', function ($scope, corkPreventNav) {
                 // ... controller code
             }])
-            .controller('barCtrl', ['$scope', 'clPreventNav', 'confirmDlg', function ($scope, clPreventNav, confirmDlg) {
+            .controller('barCtrl', ['$scope', 'corkPreventNav', 'confirmDlg', function ($scope, corkPreventNav, confirmDlg) {
                 var msg = 'Changes to your form will be lost.';
                 $scope.name = 'modify me';
-                var removeInterceptor = clPreventNav.addInterceptor(function () {
+                var removeInterceptor = corkPreventNav.addInterceptor(function () {
                     return $scope.form.$pristine;
                 }, function () {
                     return confirmDlg('Really?', msg);

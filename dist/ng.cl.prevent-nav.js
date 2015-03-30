@@ -1,6 +1,6 @@
 /**
- * ng.cl.prevent-nav - v0.0.3 - 2015-02-10
- * https://github.com/cork-labs/ng.cl.prevent-nav
+ * ng.cork.prevent-nav - v0.0.3 - 2015-02-10
+ * https://github.com/cork-labs/ng.cork.prevent-nav
  *
  * Copyright (c) 2015 Cork Labs <http://cork-labs.org>
  * License: MIT <http://cork-labs.mit-license.org/2015>
@@ -8,7 +8,7 @@
 (function (angular) {
     'use strict';
 
-    var module = angular.module('ng.cl.prevent-nav', []);
+    var module = angular.module('ng.cork.prevent-nav', []);
 
     /**
      * @param {array} Array the array to modify
@@ -55,14 +55,14 @@
 
     /**
      * @ngdoc object
-     * @name ng.cl.prevent-nav.clPreventNavProvider
+     * @name ng.cork.prevent-nav.corkPreventNavProvider
      *
      * @description
-     * Allows the {@link ng.cl.prevent-nav.clPreventNav clPreventNav} service to be configured.
+     * Allows the {@link ng.cork.prevent-nav.corkPreventNav corkPreventNav} service to be configured.
      */
-    module.provider('clPreventNav', [
+    module.provider('corkPreventNav', [
 
-        function clPreventNavProvider() {
+        function corkPreventNavProvider() {
 
             /**
              * @type {Object} provider configuration.
@@ -76,10 +76,10 @@
             /**
              * @ngdoc function
              * @name configure
-             * @methodOf ng.cl.prevent-nav.clPreventNavProvider
+             * @methodOf ng.cork.prevent-nav.corkPreventNavProvider
              *
              * @description
-             * Configures the {@link ng.cl.prevent-nav.clPreventNav clPreventNav} service.
+             * Configures the {@link ng.cork.prevent-nav.corkPreventNav corkPreventNav} service.
              *
              * @param {Object} config Object with configuration options, extends base configuration.
              * ```
@@ -101,7 +101,7 @@
 
             /**
              * @ngdoc object
-             * @name ng.cl.prevent-nav.clPreventNav
+             * @name ng.cork.prevent-nav.corkPreventNav
              *
              * @description
              * Provides a `addInterceptor()` method to register check functions to enable/disable navigation, allowing
@@ -131,7 +131,7 @@
                 '$q',
                 '$window',
                 '$location',
-                function clPreventNav($rootScope, $q, $window, $location) {
+                function corkPreventNav($rootScope, $q, $window, $location) {
 
                     /**
                      * @var {array} stores the current active interceptors
@@ -222,7 +222,7 @@
                         /**
                          * @ngdoc method
                          * @name addInterceptor
-                         * @methodOf ng.cl.prevent-nav.clPreventNav
+                         * @methodOf ng.cork.prevent-nav.corkPreventNav
                          *
                          * @description
                          * Registers an interceptor to be executed before route changes. Interceptors can accept or reject the

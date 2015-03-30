@@ -143,7 +143,7 @@ module.exports = function (grunt, data) {
 
             // used in the name of the template module (results in "my.module.templates")
             // as well as filenames of dist files
-            ngNamespace: 'ng.cl.prevent-nav',
+            ngNamespace: 'ng.cork.prevent-nav',
 
             // -- docs related
 
@@ -168,7 +168,7 @@ module.exports = function (grunt, data) {
                 examplesScripts: [
                     '<%= paths.vendor %>/angular/angular.js',
                     '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular-route.js',
-                    'src/lib/<%= vars.ngNamespace %>/<%= vars.ngNamespace %>.js',
+                    'src/lib/<%= vars.ngNamespace %>/preventNav.js',
 
                 ],
                 examplesStyles: [

@@ -1,29 +1,29 @@
-# ng.cl.prevent-nav
-[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cl.prevent-nav/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cl.prevent-nav)
-[![Bower version](http://img.shields.io/bower/v/ng.cl.prevent-nav.svg?style=flat-square)](https://github.com/cork-labs/ng.cl.prevent-nav)
+# ng.cork.prevent-nav
+[![Build Status: Linux](http://img.shields.io/travis/cork-labs/ng.cork.prevent-nav/master.svg?style=flat-square)](https://travis-ci.org/cork-labs/ng.cork.prevent-nav)
+[![Bower version](http://img.shields.io/bower/v/ng.cork.prevent-nav.svg?style=flat-square)](https://github.com/cork-labs/ng.cork.prevent-nav)
 
 > Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.
 
 
 ## Getting Started
 
-Add **ng.cl.prevent-nav** to you project.
+Add **ng.cork.prevent-nav** to you project.
 
 Via bower:
 
 ```
-$ bower install --save ng.cl.prevent-nav
+$ bower install --save ng.cork.prevent-nav
 ```
 
 Include the following JS files in your build:
-- `dist/ng.cl.prevent-nav.js` OR `dist/ng.cl.prevent-nav.min.js`
+- `dist/ng.cork.prevent-nav.js` OR `dist/ng.cork.prevent-nav.min.js`
 
 
 ## Documentation
 
-Make sure to check the [official documentation](http://jarvis.cork-labs.org/ng.cl.prevent-nav/current/docs) where you can find a
-[guide](http://jarvis.cork-labs.org/ng.cl.prevent-nav/current/docs/#/guide), a few [demos](http://jarvis.cork-labs.org/ng.cl.prevent-nav/current/docs/#/demos) and the complete
-[API reference](http://jarvis.cork-labs.org/ng.cl.prevent-nav/current/docs/#/docs).
+Make sure to check the [official documentation](http://jarvis.cork-labs.org/ng.cork.prevent-nav/current/docs) where you can find a
+[guide](http://jarvis.cork-labs.org/ng.cork.prevent-nav/current/docs/#/guide), a few [demos](http://jarvis.cork-labs.org/ng.cork.prevent-nav/current/docs/#/demos) and the complete
+[API reference](http://jarvis.cork-labs.org/ng.cork.prevent-nav/current/docs/#/docs).
 
 
 ## Contributing

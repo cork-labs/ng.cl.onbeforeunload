@@ -1,10 +1,10 @@
 {
   "generator-nglib": {
-    "project.name": "ng.cl.prevent-nav",
+    "project.name": "ng.cork.prevent-nav",
     "project.description": "Provides a service to centrally manage interceptors for $locationChangeStart and $window.onbeforeunload.",
-    "bower.id": "ng.cl.prevent-nav",
+    "bower.id": "ng.cork.prevent-nav",
     "npm.id": "ng.cl.router",
-    "angular.module": "ng.cl.prevent-nav",
+    "angular.module": "ng.cork.prevent-nav",
     "has.tpl": false,
     "has.css": false,
     "has.less": false,
@@ -12,17 +12,17 @@
     "has.docs": true,
     "use.git": true,
     "github.username": "cork-labs",
-    "github.reponame": "ng.cl.prevent-nav",
-    "homepage.url": "https://github.com/cork-labs/ng.cl.prevent-nav",
-    "docs.url": "http://jarvis.cork-labs.org/ng.cl.prevent-nav/current/docs",
-    "bugs.url": "https://github.com/cork-labs/ng.cl.prevent-nav/issues",
+    "github.reponame": "ng.cork.prevent-nav",
+    "homepage.url": "https://github.com/cork-labs/ng.cork.prevent-nav",
+    "docs.url": "http://jarvis.cork-labs.org/ng.cork.prevent-nav/current/docs",
+    "bugs.url": "https://github.com/cork-labs/ng.cork.prevent-nav/issues",
     "license.name": "MIT",
     "license.url": "http://cork-labs.mit-license.org/2015",
     "author.name": "Cork Labs",
     "author.email": "contact@cork-labs.org",
     "author.url": "http://cork-labs.org",
     "use.travis": true,
-    "travis.id": "cork-labs/ng.cl.prevent-nav",
-    "repo.url": "git@github.com:cork-labs/ng.cl.prevent-nav.git"
+    "travis.id": "cork-labs/ng.cork.prevent-nav",
+    "repo.url": "git@github.com:cork-labs/ng.cork.prevent-nav.git"
   }
 }

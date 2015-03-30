@@ -15,9 +15,9 @@ modifying the URL directly in the browser address bar).
 ```javascript
 module.controller('someCtrl', [
     '$scope',
-    'clPreventNav',
-    function ($scope, clPreventNav) {
-        var removeInterceptor = clPreventNav.addInterceptor(function () {
+    'corkPreventNav',
+    function ($scope, corkPreventNav) {
+        var removeInterceptor = corkPreventNav.addInterceptor(function () {
             return false;
         }, null, 'You will loose all your changes!');
     }
@@ -59,9 +59,9 @@ in the parent frame, even if the frame is effectively destroyed.
 <doc:example module="exampleApp" height="200">
     <doc:source>
         <script>
-            angular.module('exampleApp', ['ng.cl.prevent-nav'])
-            .controller('exampleCtrl', ['clPreventNav', function (clPreventNav) {
-                var removeInterceptor = clPreventNav.addInterceptor(function () {
+            angular.module('exampleApp', ['ng.cork.prevent-nav'])
+            .controller('exampleCtrl', ['corkPreventNav', function (corkPreventNav) {
+                var removeInterceptor = corkPreventNav.addInterceptor(function () {
                     return false;
                 }, null, 'Nothing will actually be lost this time ;-)');
             }]);
