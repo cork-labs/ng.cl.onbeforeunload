@@ -39,11 +39,15 @@ Use the {@link ng.cork.prevent-nav.corkPreventNav corkPreventNav} service by inj
 
 <pre>
 angular.module('someModule', ['ng.cork.prevent-nav'])
-.controller('someController', ['$scope', 'corkPreventNav', function ($scope, corkPreventNav) {
-    var removeInterceptor = corkPreventNav.addInterceptor(function () {
-        return !$scope.form.$dirty;
-    }, angular.noop, 'Unsaved changes will be lost!');
-    $scope.$on('$destroy', removeInterceptor);
-}])
+.controller('myController', [
+    '$scope',
+    'corkPreventNav',
+    function ($scope, corkPreventNav) {
+        var removeInterceptor = corkPreventNav.addInterceptor(function () {
+            return !$scope.form.$dirty;
+        }, angular.noop, 'Unsaved changes will be lost!');
+        $scope.$on('$destroy', removeInterceptor);
+    }
+])
 </pre>
 
