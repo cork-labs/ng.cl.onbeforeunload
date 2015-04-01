@@ -1,5 +1,5 @@
 /**
- * ng.cork.prevent-nav - v0.0.3 - 2015-02-10
+ * ng.cork.prevent-nav - v0.0.4 - 2015-04-01
  * https://github.com/cork-labs/ng.cork.prevent-nav
  *
  * Copyright (c) 2015 Cork Labs <http://cork-labs.org>
@@ -357,4 +357,3 @@
     ]);
 
 })(angular);
-
