@@ -7,6 +7,7 @@
   ],
   "license": "MIT",
   "homepage": "https://github.com/cork-labs/ng.cork.prevent-nav",
+  "main": "dist/ng.cork.prevent-nav.min.js",
   "ignore": [
     "bin",
     "docs",
