@@ -4,4 +4,4 @@
 npm install -g grunt-cli bower
 
 # build tasks
-npm install && bower update && grunt build
+npm install && bower update && grunt build && grunt docs
