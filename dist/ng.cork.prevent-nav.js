@@ -1,5 +1,5 @@
 /**
- * ng.cork.prevent-nav - v0.0.6 - 2015-04-16
+ * ng.cork.prevent-nav - v0.0.7 - 2015-05-11
  * https://github.com/cork-labs/ng.cork.prevent-nav
  *
  * Copyright (c) 2015 Cork Labs <http://cork-labs.org>
@@ -65,7 +65,7 @@
         function corkPreventNavProvider() {
 
             /**
-             * @type {Object} provider configuration.
+             * @type {Object} service configuration.
              */
             var serviceConfig = {
                 dlgHeader: 'Warning:',
@@ -83,16 +83,16 @@
              *
              * @param {Object} config Object with configuration options, extends base configuration.
              * ```
-             *    {
-             *        // window.onbeforeunload header. Default: "Warning:"
-             *        dlgHeader: <STRING>,
-             *        // window.onbeforeunload msg prefix. Default: " - "
-             *        msgPrefix: <STRING>,
-             *        // displayed when navigation is disabled but no
-             *        // interceptors have set a message.
-             *        // Default: "All changes not yet saved will be lost."
-             *        defaultMsg: <STRING>
-             *    }
+             * {
+             *     // window.onbeforeunload header. Default: "Warning:"
+             *     dlgHeader: <STRING>,
+             *     // window.onbeforeunload msg prefix. Default: " - "
+             *     msgPrefix: <STRING>,
+             *     // displayed when navigation is disabled but no
+             *     // interceptors have set a message.
+             *     // Default: "All changes not yet saved will be lost."
+             *     defaultMsg: <STRING>
+             * }
              * ```
              */
             this.configure = function (config) {
